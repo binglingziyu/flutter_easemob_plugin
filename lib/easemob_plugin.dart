@@ -6,6 +6,18 @@ class EasemobPlugin {
   static const MethodChannel _channel =
       const MethodChannel('easemob_plugin');
 
+  static Future<bool> init() async {
+    return await _channel.invokeMethod("init");
+  }
+
+  static Future<bool> login(String id, String password) async {
+    return await _channel.invokeMethod("login", [id, password]);
+  }
+
+  static Future<bool> logout() async {
+    return await _channel.invokeMethod("logout");
+  }
+
   static Future<String> get platformVersion async {
     final String version = await _channel.invokeMethod('getPlatformVersion');
     return version;

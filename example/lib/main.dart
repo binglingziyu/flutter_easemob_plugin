@@ -4,7 +4,10 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:easemob_plugin/easemob_plugin.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  await EasemobPlugin.init();
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -12,7 +15,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+  bool _loginResult = false;
 
   @override
   void initState() {
@@ -22,12 +25,12 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String platformVersion;
+    bool loginResult;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      platformVersion = await EasemobPlugin.platformVersion;
+      loginResult = await EasemobPlugin.login("i-driven-hubin", "i-driven");
     } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
+      loginResult = false;
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -36,7 +39,7 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
 
     setState(() {
-      _platformVersion = platformVersion;
+      _loginResult = loginResult;
     });
   }
 
@@ -48,7 +51,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Text('用户登录状态: $_loginResult\n'),
         ),
       ),
     );
