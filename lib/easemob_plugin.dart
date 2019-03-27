@@ -11,7 +11,7 @@ class EasemobPlugin {
   }
 
   static Future<bool> login(String id, String password) async {
-    return await _channel.invokeMethod("login", [id, password]);
+    return await _channel.invokeMethod("login", {"id":id, "password":password});
   }
 
   static Future<bool> logout() async {

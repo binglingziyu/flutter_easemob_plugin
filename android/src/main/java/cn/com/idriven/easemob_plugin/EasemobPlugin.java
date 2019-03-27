@@ -111,6 +111,8 @@ public class EasemobPlugin implements MethodCallHandler {
         case "login":
           String id = call.argument("id");
           String password = call.argument("password");
+          Log.i("easemob", "id="+id);
+          Log.i("easemob", "password="+password);
           if(StringUtils.isBlank(id)) {
             result.error("id 为空", "用户 id 不能为空", null);
             return;
@@ -138,7 +140,7 @@ public class EasemobPlugin implements MethodCallHandler {
             public void onError(int code, String message) {
               Log.d("main", "登录聊天服务器失败！");
               result.error("登录失败", message, null);
-              Log.i("easemob", "登录失败");
+              Log.i("easemob", "登录失败:"+message);
             }
           });
           break;
