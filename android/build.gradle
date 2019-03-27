@@ -1,0 +1,45 @@
+group 'cn.com.idriven.easemob_plugin'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.1'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://raw.githubusercontent.com/HyphenateInc/Hyphenate-SDK-Android/master/repository" }
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+    //use legacy for android 6.0
+    useLibrary 'org.apache.http.legacy'
+
+    defaultConfig {
+        minSdkVersion 16
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+
+    dependencies {
+//        compile 'com.android.support:appcompat-v7:23.4.0'
+        //Optional compile for GCM (Google Cloud Messaging).
+//        compile 'com.google.android.gms:play-services-gcm:9.4.0'
+        implementation 'com.hyphenate:hyphenate-sdk-lite:3.5.4'
+    }
+}
