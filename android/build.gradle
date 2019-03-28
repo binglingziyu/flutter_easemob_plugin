@@ -41,5 +41,7 @@ android {
         //Optional compile for GCM (Google Cloud Messaging).
 //        compile 'com.google.android.gms:play-services-gcm:9.4.0'
         implementation 'com.hyphenate:hyphenate-sdk-lite:3.5.4'
+
+        implementation 'com.alibaba:fastjson:1.1.70.android'
     }
 }

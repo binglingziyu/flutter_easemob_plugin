@@ -52,9 +52,9 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-//        ndk {
-//            abiFilters 'armeabi-v7a'    //只生成armv7的so
-//        }
+        ndk {
+            abiFilters 'armeabi-v7a'    //只生成armv7的so
+        }
         manifestPlaceholders = [
                 EASEMOB_APPKEY : easemobAppKey, /// 环信的 AppKey
         ]
