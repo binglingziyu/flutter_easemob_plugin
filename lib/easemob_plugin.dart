@@ -21,4 +21,8 @@ class EasemobPlugin {
   static Future<String> getAllConversations() async {
     return await _channel.invokeMethod("getAllConversations");
   }
+
+  static Future<String> getAllContactsFromServer() async {
+    return await _channel.invokeMethod("getAllContactsFromServer");
+  }
 }

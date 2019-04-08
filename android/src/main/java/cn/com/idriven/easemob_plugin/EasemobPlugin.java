@@ -67,6 +67,20 @@ public class EasemobPlugin implements MethodCallHandler {
           Log.i("easemob", "会话内容："+ JSON.toJSONString(allConversations));
           result.success(JSON.toJSONString(allConversations));
           break;
+        case "getAllContactsFromServer":
+          EMClient.getInstance().contactManager().aysncGetAllContactsFromServer(new EMValueCallBack<List<String>>() {
+            @Override
+            public void onSuccess(List<String> usernames) {
+              Log.i("easemob", "好友列表："+ JSON.toJSONString(usernames));
+              result.success(JSON.toJSONString(usernames));
+            }
+            @Override
+            public void onError(int error, String errorMsg) {
+              Log.e("easemob", "获取好友列表失败："+ errorMsg);
+              result.error("获取好友列表失败", errorMsg, null);
+            }
+          });
+          break;
         default:
           result.notImplemented();
           break;
@@ -83,7 +97,7 @@ public class EasemobPlugin implements MethodCallHandler {
    */
   private void easeMobInit(MethodCall call, Result result) {
     String appKey = call.argument("appKey");
-    boolean acceptInvitationAlways = getBooleanArgument(call, "acceptInvitationAlways", false);
+    boolean acceptInvitationAlways = getBooleanArgument(call, "acceptInvitationAlways", true);
     boolean autoAcceptGroupInvitation = getBooleanArgument(call, "autoAcceptGroupInvitation", false);
     boolean autoTransferMessageAttachments = getBooleanArgument(call, "autoTransferMessageAttachments", false);
     boolean autoDownloadThumbnail = getBooleanArgument(call, "autoDownloadThumbnail", false);
