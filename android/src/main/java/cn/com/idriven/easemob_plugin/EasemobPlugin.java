@@ -67,6 +67,20 @@ public class EasemobPlugin implements MethodCallHandler {
           Log.i("easemob", "会话内容："+ JSON.toJSONString(allConversations));
           result.success(JSON.toJSONString(allConversations));
           break;
+        case "getJoinedGroupsFromServer":
+          EMClient.getInstance().groupManager().asyncGetJoinedGroupsFromServer(new EMValueCallBack<List< EMGroup >>() {
+            @Override
+            public void onSuccess(List<EMGroup> groups) {
+              Log.i("easemob", "已加入群组列表："+ JSON.toJSONString(groups));
+              result.success(JSON.toJSONString(groups));
+            }
+            @Override
+            public void onError(int error, String errorMsg) {
+              Log.e("easemob", "获取已加入群组列表失败："+ errorMsg);
+              result.error("获取已加入群组列表失败", errorMsg, null);
+            }
+          });
+          break;
         case "getAllContactsFromServer":
           EMClient.getInstance().contactManager().aysncGetAllContactsFromServer(new EMValueCallBack<List<String>>() {
             @Override

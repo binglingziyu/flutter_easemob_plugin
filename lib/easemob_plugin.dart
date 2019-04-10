@@ -25,4 +25,8 @@ class EasemobPlugin {
   static Future<String> getAllContactsFromServer() async {
     return await _channel.invokeMethod("getAllContactsFromServer");
   }
+
+  static Future<String> getJoinedGroupsFromServer() async {
+    return await _channel.invokeMethod("getJoinedGroupsFromServer");
+  }
 }
