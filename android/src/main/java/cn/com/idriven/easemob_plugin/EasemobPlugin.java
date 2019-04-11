@@ -20,6 +20,7 @@ import com.hyphenate.util.NetUtils;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -94,6 +95,24 @@ public class EasemobPlugin implements MethodCallHandler {
               result.error("获取好友列表失败", errorMsg, null);
             }
           });
+          break;
+        case "getConversationAllMessages":
+          String id0 = call.argument("id");
+          EMConversation conversation0 = EMClient.getInstance().chatManager().getConversation(id0);
+          if(conversation0 != null) {
+            List<EMMessage> allMessages = conversation0.getAllMessages();
+            result.success(JSON.toJSONString(allMessages));
+          } else {
+            result.success(JSON.toJSONString(new ArrayList<>()));
+          }
+          break;
+        case "markAllMessagesAsRead":
+          String id1 = call.argument("id");
+          EMConversation conversation1 = EMClient.getInstance().chatManager().getConversation(id1);
+          if(conversation1 != null) {
+            conversation1.markAllMessagesAsRead();
+          }
+          result.success(true);
           break;
         default:
           result.notImplemented();

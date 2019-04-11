@@ -29,4 +29,13 @@ class EasemobPlugin {
   static Future<String> getJoinedGroupsFromServer() async {
     return await _channel.invokeMethod("getJoinedGroupsFromServer");
   }
+
+  static Future<String> getConversationAllMessages(String id) async {
+    return await _channel.invokeMethod("getConversationAllMessages", {"id":id});
+  }
+
+  static Future<bool> markAllMessagesAsRead(String id) async {
+    return await _channel.invokeMethod("markAllMessagesAsRead", {"id":id});
+  }
+
 }
