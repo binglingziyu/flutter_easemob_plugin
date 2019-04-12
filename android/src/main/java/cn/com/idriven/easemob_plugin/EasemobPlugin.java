@@ -96,24 +96,40 @@ public class EasemobPlugin implements MethodCallHandler {
             }
           });
           break;
-        case "getConversationAllMessages":
-          String id0 = call.argument("id");
-          EMConversation conversation0 = EMClient.getInstance().chatManager().getConversation(id0);
-          if(conversation0 != null) {
-            List<EMMessage> allMessages = conversation0.getAllMessages();
-            result.success(JSON.toJSONString(allMessages));
-          } else {
-            result.success(JSON.toJSONString(new ArrayList<>()));
+        case "getConversationAllMessages": {
+          String id = call.argument("id");
+          EMConversation conversation = EMClient.getInstance().chatManager().getConversation(id);
+          List<EMMessage> allMessages = new ArrayList<>();
+          if (conversation != null) {
+            conversation.markAllMessagesAsRead();
+            allMessages = conversation.loadMoreMsgFromDB("", 20);
           }
+          Log.e("easemob", "会话消息列表：" + JSON.toJSONString(allMessages));
+          result.success(JSON.toJSONString(allMessages));
           break;
-        case "markAllMessagesAsRead":
-          String id1 = call.argument("id");
-          EMConversation conversation1 = EMClient.getInstance().chatManager().getConversation(id1);
-          if(conversation1 != null) {
-            conversation1.markAllMessagesAsRead();
+        }
+        case "loadMoreMsgFromDB": {
+          String id = call.argument("id");
+          String startMsgId = call.argument("startMsgId");
+          int pageSize = getIntegerArgument(call, "pageSize", 0);
+          EMConversation conversation = EMClient.getInstance().chatManager().getConversation(id);
+          List<EMMessage> allMessages = new ArrayList<>();
+          if (conversation != null) {
+            allMessages = conversation.loadMoreMsgFromDB(startMsgId, pageSize);
+          }
+          Log.e("easemob", "加载更多会话消息列表：" + JSON.toJSONString(allMessages));
+          result.success(JSON.toJSONString(allMessages));
+          break;
+        }
+        case "markAllMessagesAsRead": {
+          String id = call.argument("id");
+          EMConversation conversation = EMClient.getInstance().chatManager().getConversation(id);
+          if (conversation != null) {
+            conversation.markAllMessagesAsRead();
           }
           result.success(true);
           break;
+        }
         default:
           result.notImplemented();
           break;
@@ -259,6 +275,11 @@ public class EasemobPlugin implements MethodCallHandler {
 
   private boolean getBooleanArgument(MethodCall call, String key, boolean defaultValue) {
     Boolean value = call.argument(key);
+    return value == null ? defaultValue : value;
+  }
+
+  private int getIntegerArgument(MethodCall call, String key, int defaultValue) {
+    Integer value = call.argument(key);
     return value == null ? defaultValue : value;
   }
 

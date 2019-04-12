@@ -34,6 +34,10 @@ class EasemobPlugin {
     return await _channel.invokeMethod("getConversationAllMessages", {"id":id});
   }
 
+  static Future<String> loadMoreMsgFromDB(String id, String startMsgId, int pageSize) async {
+    return await _channel.invokeMethod("loadMoreMsgFromDB", {"id":id, "startMsgId":startMsgId, "pageSize":pageSize});
+  }
+
   static Future<bool> markAllMessagesAsRead(String id) async {
     return await _channel.invokeMethod("markAllMessagesAsRead", {"id":id});
   }
