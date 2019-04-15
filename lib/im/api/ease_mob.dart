@@ -62,4 +62,20 @@ class EaseMob {
     }
     return MessageList.fromJson(json.decode(loadMoreConversationMessages));
   }
+
+  Future<bool> markAllMessagesAsRead(String id) async {
+    bool markAllMessagesAsRead = await EasemobPlugin.markAllMessagesAsRead(id);
+    return markAllMessagesAsRead;
+  }
+
+  Future<bool> markMessageAsRead(String id, String msgId) async {
+    bool markMessageAsRead = await EasemobPlugin.markMessageAsRead(id, msgId);
+    return markMessageAsRead;
+  }
+
+  Future<bool> deleteConversation(String id) async {
+    bool deleteConversation = await EasemobPlugin.deleteConversation(id);
+    return deleteConversation;
+  }
+
 }

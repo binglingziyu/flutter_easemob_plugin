@@ -130,6 +130,23 @@ public class EasemobPlugin implements MethodCallHandler {
           result.success(true);
           break;
         }
+        case "markMessageAsRead": {
+          String id = call.argument("id");
+          String msgId = call.argument("msgId");
+          EMConversation conversation = EMClient.getInstance().chatManager().getConversation(id);
+          if (conversation != null) {
+            conversation.markMessageAsRead(msgId);
+          }
+          result.success(true);
+          break;
+        }
+        case "deleteConversation": {
+          String id = call.argument("id");
+          boolean deleteMessages = getBooleanArgument(call, "deleteMessages", false);
+          EMClient.getInstance().chatManager().deleteConversation(id, deleteMessages);
+          result.success(true);
+          break;
+        }
         default:
           result.notImplemented();
           break;

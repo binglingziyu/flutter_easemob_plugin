@@ -61,4 +61,12 @@ class EasemobPlugin {
     return await _channel.invokeMethod("markAllMessagesAsRead", {"id":id});
   }
 
+  static Future<bool> markMessageAsRead(String id, String msgId) async {
+    return await _channel.invokeMethod("markMessageAsRead", {"id":id, "msgId":msgId});
+  }
+
+  static Future<bool> deleteConversation(String id) async {
+    return await _channel.invokeMethod("deleteConversation", {"id":id, "deleteMessages":false});
+  }
+
 }
