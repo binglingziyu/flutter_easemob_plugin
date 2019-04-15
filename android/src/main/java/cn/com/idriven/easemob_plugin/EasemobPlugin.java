@@ -289,6 +289,8 @@ public class EasemobPlugin implements MethodCallHandler {
     @Override
     public void onMessageReceived(List<EMMessage> messages) {
       //收到消息
+      Log.i("easemob", JSON.toJSONString(messages));
+      channel.invokeMethod("onMessageReceived", JSON.toJSONString(messages));
     }
 
     @Override

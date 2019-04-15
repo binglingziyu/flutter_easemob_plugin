@@ -1,10 +1,29 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:easemob_plugin/im/model/message_list.dart';
 import 'package:flutter/services.dart';
 
 class EasemobPlugin {
-  static const MethodChannel _channel =
-      const MethodChannel('easemob_plugin');
+
+  static StreamController<MessageList> _onMessageReceivedController =
+  new StreamController.broadcast();
+
+  //
+  static Stream<MessageList> get onMessageReceived =>
+      _onMessageReceivedController.stream;
+
+  static  MethodChannel _channel = const MethodChannel('easemob_plugin')
+    ..setMethodCallHandler(_handler);
+
+  static Future<dynamic> _handler(MethodCall methodCall) {
+    if ("onMessageReceived" == methodCall.method) {
+      _onMessageReceivedController
+          .add(MessageList.fromJson(json.decode(methodCall.arguments)));
+    }
+    return Future.value(true);
+  }
+
 
   static Future<bool> init() async {
     return await _channel.invokeMethod("init");
